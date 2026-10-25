@@ -1,0 +1,17 @@
+Package: hello
+Version: 0.0.0
+Architecture: all
+Maintainer: ME <me@mail.com>
+Description: Test Debian package
+ extended description over
+ several lines
+
+# https://www.debian.org/doc/debian-policy/ch-controlfields?utm_source=chatgpt.com#s-f-source
+
+# Field	Classification	Purpose
+# Section	Recommended	Package category; admin is suitable for system administration utilities
+# Priority	Recommended	optional for packages not essential to Debian
+# Depends	Optional	Packages APT must install alongside yours
+# Recommends	Optional	Useful but nonessential dependencies
+# Conflicts	Optional	Packages that cannot coexist with yours
+# Homepage	Optional	Project URL

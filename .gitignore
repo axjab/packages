@@ -1,0 +1,19 @@
+# Debian build artifacts
+/build/
+/dist/
+
+# Debian packaging temporary files
+*.deb
+*.buildinfo
+*.changes
+*.dsc
+*.tar.gz
+*.tar.xz
+*.debhelper
+*.substvars
+
+# Editor and OS files
+*~
+*.swp
+*.swo
+.DS_Store
