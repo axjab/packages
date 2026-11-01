@@ -1,0 +1,2 @@
+
+echo install -m 755 /exe/tty-notify pkg/core/usr/bin/tty-notify

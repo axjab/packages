@@ -1,37 +1,37 @@
-
 #!/usr/bin/env bash
 set -euo pipefail
 
-mkdir -p dist
-dpkg-deb --root-owner-group --build pkg/hello dist   # version supplied automatically
+main() {
+    local pkg="${1:?Usage: ./build <package-name>}"
+    local source="pkg/$pkg"
+    local control="$source/DEBIAN/control"
 
+    [[ -f "$control" ]] || {
+        echo "Error: Package '$pkg' does not exist." >&2
+        exit 1
+    }
 
+    # Build using the package's control metadata.
+    mkdir -p dist
+    dpkg-deb --root-owner-group --build "$source" dist/
 
+    # Resolve the generated archive filename.
+    local name version arch artifact
+    name=$(sed -n 's/^Package: *//p' "$control")
+    version=$(sed -n 's/^Version: *//p' "$control")
+    arch=$(sed -n 's/^Architecture: *//p' "$control")
+    artifact="dist/${name}_${version}_${arch}.deb"
 
+    # Verify the archive and its contents.
+    echo
+    echo "Verifying $artifact..."
 
-# cd "$(dirname "$0")"
+    dpkg-deb --info "$artifact"
+    dpkg-deb --contents "$artifact"
+    dpkg-deb --fsys-tarfile "$artifact" | tar -tf - >/dev/null
 
-# mkdir -p build dist
-# rm -rf build/sym build/host-headless
+    echo
+    echo "Build verified: $artifact"
+}
 
-# # Build sym
-# bash -n scripts/sym/sym
-
-# mkdir -p build/sym/DEBIAN build/sym/usr/bin
-# cp scripts/sym/control build/sym/DEBIAN/control
-# install -m 755 scripts/sym/sym build/sym/usr/bin/sym
-
-# dpkg-deb --build --root-owner-group \
-#   build/sym dist/
-
-# # Build host-headless
-# mkdir -p build/host-headless/DEBIAN
-# cp metapackages/host-headless/control \
-#   build/host-headless/DEBIAN/control
-
-# dpkg-deb --build --root-owner-group \
-#   build/host-headless dist/
-
-# echo "Packages built successfully:"
-# ls -lh dist/*.deb
-
+main "$@"
