@@ -1,6 +1,9 @@
 
 Goal is to automate publishing.
 
+- [x] ok: init <pkg>
+- [x] ok: build <pkg>
+
 Publish script failed. 
 
 First, do every command separately to identify the weakness
